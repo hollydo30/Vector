@@ -58,12 +58,12 @@ class MyVector
 		~MyVector() {
 			
 			// TODO: Your code here
-			if (elements_ != nullptr)
-			{
+			/*if (elements_ != nullptr)
+			{*/
 			clear();
-			delete[] elements_;
+			/*delete elements_;
 			elements_ = nullptr;
-		    }
+		    }*/
 		}
 		
 		/************
@@ -317,11 +317,13 @@ class MyVector
 		void clear() {
 			
 			// TODO: Your code here
-			while( size_ != 0 )
+			/*while( size_ > 0 )
 			{
 				elements_[size_].~T();
 				size_--;
-			}
+			}*/
+			size_ = 0;
+			elements_=nullptr;
 			capacity_ = DEFAULT_CAPACITY;
 				
 		}
