@@ -45,7 +45,7 @@ int main()
 		cout<< other.size() << other.capacity() << other.empty() << endl;
 	other.pop_back();
 		cout<< other.size() << other.capacity() << other.empty() << endl;
-	other.pop_back();
+	other.erase(0);
 		cout<< other.size() << other.capacity() << other.empty() << endl;
 		cout<<endl;
 	

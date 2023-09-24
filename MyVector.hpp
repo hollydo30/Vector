@@ -99,7 +99,11 @@ class MyVector
 		T& operator[](size_t index) const {
 			
 			// TODO: Your code here
-			return elements_[index];
+			if (index < 0 || index >= size_)
+				throw std::range_error("Index is invalid.");
+			
+			else
+				return elements_[index];
 		}
 		
 		/************
@@ -145,7 +149,7 @@ class MyVector
 			
 			// TODO: Your code here
 			if (index < 0 || index >= size_)
-				throw std::range_error("Index is out of bounds.");
+				throw std::range_error("Index is invalid.");
 			else
 				return elements_[index];
 		}
@@ -161,15 +165,29 @@ class MyVector
 		void reserve(size_t capacity) {
 			
 			// TODO: Your code here
-			if (capacity < capacity_)
-				throw std::range_error("New capacity is smaller than current capacity.");
+			if (capacity < size_)
+				throw std::range_error("New capacity is not enough to hold elements.");
+			
 			else
 			{
-				MyVector<T> other;
-				other = *this;
-				delete[] elements_;
+				if(capacity == size_)
+					capacity = capacity * 2;
+				
+				MyVector<T> other (capacity);
+				
+			    other.size_ = size_;
+			    capacity_ = other.capacity_;
+			    
+				for (size_t i = 0; i < size_; i++)
+				{
+					other.elements_[i] = elements_[i];
+			    }
+			    
+			    delete [] elements_;
 				elements_ = other.elements_;
+				other.elements_ = nullptr;
 			}
+			
 		}
 		
 		/**
@@ -247,8 +265,8 @@ class MyVector
 			if (size_ >= capacity_)
 				changeCapacity(capacity_*2);
 				
-			if (index > size_)
-				index = size_;
+			if (index > size_ || index<0 )
+				throw std::range_error("Invalid index.");
 			
 			
 			for (size_t i = size_; i > index; i--)
@@ -274,6 +292,11 @@ class MyVector
 		size_t erase(size_t index) {
 			
 			// TODO: Your code here
+			if(size_ <= (capacity_/3))
+			{
+				changeCapacity(capacity_/2);
+		    }
+		    
 			if (index < 0 || index >= size_)
 				throw std::range_error("Index is out of bounds.");
 			
