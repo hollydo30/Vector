@@ -30,7 +30,7 @@ class MyVector
 		 ****************************/
 		
 		/// Normal constructor
-		MyVector(size_t capacity = MyVector::DEFAULT_CAPACITY) {
+		MyVector(size_t capacity = DEFAULT_CAPACITY) {
 			
 			// TODO: Your code here
 			elements_ = new T[DEFAULT_CAPACITY];
@@ -47,7 +47,7 @@ class MyVector
 			elements_ = new T[capacity_];
 			for (size_t i = 0; i <= other.size_; i++)
 			{
-				elements_[i] = other.elements[i];
+				elements_[i] = other.elements_[i];
 			}
 		}
 		
@@ -59,9 +59,9 @@ class MyVector
 		~MyVector() {
 			
 			// TODO: Your code here
-			delete[] elements_;
+			clear();
+			delete elements_;
 			elements_ = nullptr;
-			
 		}
 		
 		/************
@@ -91,7 +91,7 @@ class MyVector
 					elements_[i] = rhs.elements_[i];
 				}
 			}
-			
+			return *this;
 		}
 		
 		/// Operator overload to at()
@@ -129,6 +129,7 @@ class MyVector
 			
 			// TODO: Your code here
 			return size_ == 0;
+			
 		}
 		
 		/// Return a reference to the element at an index
@@ -155,10 +156,12 @@ class MyVector
 			if (capacity < capacity_)
 				throw std::range_error("New capacity is smaller than current capacity.");
 			else
-				MyVector other = new MyVector(capacity);
-				other = this;
+			{
+				MyVector<T> other;
+				other = *this;
 				delete[] elements_;
 				elements_ = other.elements_;
+			}
 		}
 		
 		/**
@@ -187,16 +190,16 @@ class MyVector
 			// TODO: Your code here
 			if (size_ < capacity_)
 			{
-				insert [size_; element];
+				insert (size_, element);
 				size_++;
 			}
 			else
 			{
 				reserve (size_ *2);
-				insert [size_, element];
+				insert (size_, element);
 				size_++;
 			}
-				
+			return elements_[size_-1];
 		}
 		
 		/**
@@ -207,7 +210,7 @@ class MyVector
 		size_t pop_back() {
 			
 			// TODO: Your code here
-			erase [size_ -1];
+			erase (size_ -1);
 			size_--;
 			return size_;
 		}
@@ -224,13 +227,13 @@ class MyVector
 		T& insert(size_t index, const T& element) {
 			
 			// TODO: Your code here
-			if (size_ = capacity_)
-				reserve (capacity_ *2);
+			if (size_ == capacity_)
+				{reserve (capacity_ *2);}
 			
 			if (index >= size_)
-				throw std:range_error("Index is out of bounds.");
-			else
-				for (int i = size_-1; i > index; i--)
+				{throw std::range_error("Index is out of bounds.");}
+			
+				for (size_t i = size_-1; i > index ; i--)
 				{
 					elements_[i+1] = elements_[i];
 				}
@@ -258,9 +261,9 @@ class MyVector
 			if (index < 0 || index >= size_)
 				throw std::range_error("Index is out of bounds.");
 			else
-				for (size_t i = index, i<=(size_-1), i++)
+				for (size_t i = index; i <= (size_-1); i++)
 					elements_[i] = elements_[i+1];
-			elements_[i+1].~T();
+			elements_[size_].~T();
 			size_--;
 			return size_;
 			
@@ -314,14 +317,15 @@ class MyVector
 			
 			// TODO: Your code here
 			if (c <= capacity_)
-				throw
+				throw std::range_error("Index is out of bounds.");
 			else
 			{
 				MyVector other = new MyVector(c);
-				other = this;
+				other = *this;
 				delete [] elements_;
 				elements_ = other.elements_;
 				other.elements_ = nullptr;
+			}
 		}
 		
 		/**
@@ -335,13 +339,13 @@ class MyVector
 		 * Here is a suggested strategy for copying the internal array:
 		 * 1. Deallocate the current array for 'this' (if it is already allocated)
 		 * 2. Allocate a new array for 'this' of the appropriate size
-		 * 3. Use a loop to copy elements one-by-one (by value)
+		 * 3. Use a loop to copy elements one-by-one by value
 		 * 4. Copy other relevant properties from the 'other' to 'this'
 		 */
 		void copyOther(const MyVector& other) {
 			
 			// TODO: Your code here
-			this = other;
+			*this = other;
 		}
 };
 
