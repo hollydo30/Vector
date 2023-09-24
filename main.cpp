@@ -22,25 +22,45 @@ int main()
 
 	cout<< other.size() << other.capacity() << other.empty() << endl;
 	
-	other.push_back(1);
-	
-	cout<< other.size() << other.capacity() << other.empty() << endl;
-	
 	other.push_back(2);
 	other.push_back(3);
 	other.push_back(4);
 	
 	cout<< other.size() << other.capacity() << other.empty() << endl;
 	
-	other.pop_back();
+	other.insert(0,1);
+	other.insert(0,1);
+	other.insert(0,1);
 	
 	cout<< other.size() << other.capacity() << other.empty() << endl;
+	cout<<endl;
 	
-	other.erase(0);
+	other.pop_back();
+		cout<< other.size() << other.capacity() << other.empty() << endl;
+	other.pop_back();
+		cout<< other.size() << other.capacity() << other.empty() << endl;
+	other.pop_back();
+			cout<< other.size() << other.capacity() << other.empty() << endl;
+	other.pop_back();
+		cout<< other.size() << other.capacity() << other.empty() << endl;
+	other.pop_back();
+		cout<< other.size() << other.capacity() << other.empty() << endl;
+	other.pop_back();
+		cout<< other.size() << other.capacity() << other.empty() << endl;
+		cout<<endl;
 	
     cout<< other.size() << other.capacity() << other.empty() << endl;
     
     other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
+	other.insert(0, 1);
 	
 	cout<< other.size() << other.capacity() << other.empty() << endl;
 	

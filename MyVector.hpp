@@ -216,13 +216,20 @@ class MyVector
 		size_t pop_back() {
 			
 			// TODO: Your code here
+		
 			if(size_ == 0)
 				throw std::range_error("Nothing to pop.");
+				
+			if(size_ <= (capacity_/3))
+			{
+				changeCapacity(capacity_/2);
+				erase (size_ -1);
+		    }
 			else
 			{
-			erase (size_ -1);
-			return size_;
+				erase (size_ -1);
 		    }
+		    return size_;
 		}
 		
 		/**
@@ -274,7 +281,7 @@ class MyVector
 				{for (size_t i = index; i < (size_-1); i++)
 					{elements_[i] = elements_[i+1];}}
 					
-			elements_[size_].~T();
+			elements_[size_-1].~T();
 			size_--;
 			return size_;
 			
@@ -324,18 +331,21 @@ class MyVector
 		void changeCapacity(size_t c) {
 			
 			// TODO: Your code here
-			if (c <= size_)
+			if (c < size_)
 				throw std::range_error("Capacity is too small.");
 			else
 			{
 				MyVector<T> other (c);
+				
+			    other.size_ = size_;
+			    capacity_ = other.capacity_;
+			    
 				for (size_t i = 0; i < size_; i++)
 				{
 					other.elements_[i] = elements_[i];
-			     }
-			    other.size_ = size_;
-			    capacity_ = other.capacity_;
-				delete [] elements_;
+			    }
+			    
+			    delete [] elements_;
 				elements_ = other.elements_;
 				other.elements_ = nullptr;
 			}
