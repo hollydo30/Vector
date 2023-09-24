@@ -18,6 +18,31 @@ int main()
 {
 	//
 	cout << "Hello! Maybe use this source file for debugging?" << endl;
+	MyVector<int> other;
+
+	cout<< other.size() << other.capacity() << other.empty() << endl;
+	
+	other.push_back(1);
+	
+	cout<< other.size() << other.capacity() << other.empty() << endl;
+	
+	other.push_back(2);
+	other.push_back(3);
+	other.push_back(4);
+	
+	cout<< other.size() << other.capacity() << other.empty() << endl;
+	
+	other.pop_back();
+	
+	cout<< other.size() << other.capacity() << other.empty() << endl;
+	
+	other.erase(0);
+	
+    cout<< other.size() << other.capacity() << other.empty() << endl;
+    
+    other.insert(0, 1);
+	
+	cout<< other.size() << other.capacity() << other.empty() << endl;
 	
 	return 0;
 }

@@ -59,9 +59,12 @@ class MyVector
 		~MyVector() {
 			
 			// TODO: Your code here
+			if (elements_ != nullptr)
+			{
 			clear();
-			delete elements_;
+			delete[] elements_;
 			elements_ = nullptr;
+		    }
 		}
 		
 		/************
@@ -72,15 +75,13 @@ class MyVector
 		MyVector& operator=(const MyVector& rhs) {
 			
 			// TODO: Your code here
-			capacity_ = rhs.capacity_;
-			
 			if (rhs.size_ <= capacity_)
 			{
 				size_ = rhs.size_;
 			}
 			else
 			{
-				size_ = capacity_;
+				size_ = rhs.capacity_;
 			}
 			
 			 
@@ -188,17 +189,15 @@ class MyVector
 		T& push_back(const T& element) {
 			
 			// TODO: Your code here
-			if (size_ < capacity_)
+			/*if (size_ < capacity_)
 			{
 				insert (size_, element);
-				size_++;
 			}
 			else
 			{
-				reserve (size_ *2);
+				reserve (size_ *2);*/
 				insert (size_, element);
-				size_++;
-			}
+			/*}*/
 			return elements_[size_-1];
 		}
 		
@@ -211,7 +210,6 @@ class MyVector
 			
 			// TODO: Your code here
 			erase (size_ -1);
-			size_--;
 			return size_;
 		}
 		
@@ -227,16 +225,18 @@ class MyVector
 		T& insert(size_t index, const T& element) {
 			
 			// TODO: Your code here
-			if (size_ == capacity_)
+			/*if (size_ == capacity_)
 				{reserve (capacity_ *2);}
-			
-			if (index >= size_)
-				{throw std::range_error("Index is out of bounds.");}
-			
-				for (size_t i = size_-1; i > index ; i--)
+				
+			if (index > size_)
+				push_back(element);
+			else if (index > size_)
+				throw std::range_error("Index is out of bounds.");
+			else
+				for (size_t i = size_ ; i > index ; i--)
 				{
-					elements_[i+1] = elements_[i];
-				}
+					elements_[i] = elements_[i-1];
+				}*/
 			
 			elements_[index] = element;
 			size_++;
@@ -261,8 +261,8 @@ class MyVector
 			if (index < 0 || index >= size_)
 				throw std::range_error("Index is out of bounds.");
 			else
-				for (size_t i = index; i <= (size_-1); i++)
-					elements_[i] = elements_[i+1];
+				{for (size_t i = index; i <= (size_-1); i++)
+					{elements_[i] = elements_[i+1];}}
 			elements_[size_].~T();
 			size_--;
 			return size_;
@@ -281,10 +281,10 @@ class MyVector
 				for( size_t i = 0; i <= (size_-1); i++ )
 				{
 					elements_[i].~T();
-					size_ = 0;
-					capacity_ = DEFAULT_CAPACITY;
 				}
 			}
+			size_ = 0;
+			capacity_ = DEFAULT_CAPACITY;
 				
 		}
 	
@@ -316,11 +316,11 @@ class MyVector
 		void changeCapacity(size_t c) {
 			
 			// TODO: Your code here
-			if (c <= capacity_)
+			if (c <= size_)
 				throw std::range_error("Index is out of bounds.");
 			else
 			{
-				MyVector other = new MyVector(c);
+				MyVector other;
 				other = *this;
 				delete [] elements_;
 				elements_ = other.elements_;
@@ -345,7 +345,24 @@ class MyVector
 		void copyOther(const MyVector& other) {
 			
 			// TODO: Your code here
-			*this = other;
+			
+			if (other.size_ <= capacity_)
+			{
+				size_ = other.size_;
+			}
+			else
+			{
+				size_ = other.capacity_;
+			}
+			
+			 
+			if (elements_ != other.elements_)
+			{ 
+				for (size_t i = 0; i <= (size_-1); i++)
+				{
+					elements_[i] = other.elements_[i];
+				}
+			}
 		}
 };
 
