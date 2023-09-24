@@ -18,7 +18,7 @@ int main()
 {
 	//
 	cout << "Hello! Maybe use this source file for debugging?" << endl;
-	MyVector<int> other;
+	MyVector<int> other(3);
 
 	cout<< other.size() << other.capacity() << other.empty() << endl;
 	

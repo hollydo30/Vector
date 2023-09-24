@@ -8,7 +8,6 @@
 #include <iostream>
 #include <string>
 
-
 //
 template <typename T>
 class MyVector
@@ -33,9 +32,9 @@ class MyVector
 		MyVector(size_t capacity = DEFAULT_CAPACITY) {
 			
 			// TODO: Your code here
-			elements_ = new T[DEFAULT_CAPACITY];
+			elements_ = new T[capacity]();
 			size_ = 0;
-			capacity_ = DEFAULT_CAPACITY;
+			capacity_ = capacity;
 		}
 		
 		/// Copy constructor
@@ -44,8 +43,8 @@ class MyVector
 			// TODO: Your code here
 			size_ = other.size_;
 			capacity_ = other.capacity_;
-			elements_ = new T[capacity_];
-			for (size_t i = 0; i <= other.size_; i++)
+			elements_ = new T[other.capacity_]();
+			for (size_t i = 0; i < other.size_; i++)
 			{
 				elements_[i] = other.elements_[i];
 			}
@@ -81,7 +80,8 @@ class MyVector
 			}
 			else
 			{
-				size_ = rhs.capacity_;
+				changeCapacity(rhs.capacity_);
+				size_ = rhs.size_;
 			}
 			
 			 
@@ -129,7 +129,14 @@ class MyVector
 		bool empty() const {
 			
 			// TODO: Your code here
-			return size_ == 0;
+			if(size_ == 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 			
 		}
 		
@@ -189,15 +196,15 @@ class MyVector
 		T& push_back(const T& element) {
 			
 			// TODO: Your code here
-			/*if (size_ < capacity_)
+			if (size_ >= capacity_)
 			{
+				changeCapacity(capacity_*2);
 				insert (size_, element);
 			}
 			else
 			{
-				reserve (size_ *2);*/
 				insert (size_, element);
-			/*}*/
+			}
 			return elements_[size_-1];
 		}
 		
@@ -209,8 +216,13 @@ class MyVector
 		size_t pop_back() {
 			
 			// TODO: Your code here
+			if(size_ == 0)
+				throw std::range_error("Nothing to pop.");
+			else
+			{
 			erase (size_ -1);
 			return size_;
+		    }
 		}
 		
 		/**
@@ -225,18 +237,15 @@ class MyVector
 		T& insert(size_t index, const T& element) {
 			
 			// TODO: Your code here
-			/*if (size_ == capacity_)
-				{reserve (capacity_ *2);}
+			if (size_ >= capacity_)
+				changeCapacity(capacity_*2);
 				
 			if (index > size_)
-				push_back(element);
-			else if (index > size_)
-				throw std::range_error("Index is out of bounds.");
-			else
-				for (size_t i = size_ ; i > index ; i--)
-				{
-					elements_[i] = elements_[i-1];
-				}*/
+				index = size_;
+			
+			
+			for (size_t i = size_; i > index; i--)
+					{elements_[i] = elements_[i-1];}
 			
 			elements_[index] = element;
 			size_++;
@@ -260,9 +269,11 @@ class MyVector
 			// TODO: Your code here
 			if (index < 0 || index >= size_)
 				throw std::range_error("Index is out of bounds.");
+			
 			else
-				{for (size_t i = index; i <= (size_-1); i++)
+				{for (size_t i = index; i < (size_-1); i++)
 					{elements_[i] = elements_[i+1];}}
+					
 			elements_[size_].~T();
 			size_--;
 			return size_;
@@ -278,12 +289,9 @@ class MyVector
 			// TODO: Your code here
 			while( size_ != 0 )
 			{
-				for( size_t i = 0; i <= (size_-1); i++ )
-				{
-					elements_[i].~T();
-				}
+				elements_[size_].~T();
+				size_--;
 			}
-			size_ = 0;
 			capacity_ = DEFAULT_CAPACITY;
 				
 		}
@@ -317,11 +325,16 @@ class MyVector
 			
 			// TODO: Your code here
 			if (c <= size_)
-				throw std::range_error("Index is out of bounds.");
+				throw std::range_error("Capacity is too small.");
 			else
 			{
-				MyVector other;
-				other = *this;
+				MyVector<T> other (c);
+				for (size_t i = 0; i < size_; i++)
+				{
+					other.elements_[i] = elements_[i];
+			     }
+			    other.size_ = size_;
+			    capacity_ = other.capacity_;
 				delete [] elements_;
 				elements_ = other.elements_;
 				other.elements_ = nullptr;
