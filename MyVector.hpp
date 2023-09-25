@@ -58,12 +58,11 @@ class MyVector
 		~MyVector() {
 			
 			// TODO: Your code here
-			/*if (elements_ != nullptr)
-			{*/
+		
 			clear();
-			/*delete elements_;
-			elements_ = nullptr;
-		    }*/
+			//elements_ = nullptr;
+			
+		    
 		}
 		
 		/************
@@ -201,7 +200,8 @@ class MyVector
 			if (index < 0 || index >= size_)
 				throw std::range_error("Index is out of bounds.");
 			else
-				elements_[index] = element;
+				{elements_[index].~T();
+				elements_[index] = element;}
 			
 			return elements_[index];
 		}
@@ -317,11 +317,15 @@ class MyVector
 		void clear() {
 			
 			// TODO: Your code here
-			/*while( size_ > 0 )
+			/*if (elements_ != nullptr)
 			{
-				elements_[size_].~T();
-				size_--;
-			}*/
+				
+			for (size_t i = 0; i<size_; i++)
+			{
+				elements_[i].~T();
+			}
+			
+		    }*/
 			size_ = 0;
 			elements_=nullptr;
 			capacity_ = DEFAULT_CAPACITY;

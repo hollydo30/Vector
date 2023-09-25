@@ -63,6 +63,14 @@ int main()
 	other.insert(0, 1);
 	
 	cout<< other.size() << other.capacity() << other.empty() << endl;
+	cout<<endl;
+	
+	MyVector<int> another(other);
+	
+	other.clear();
+	cout<< other.size() << other.capacity() << other.empty() << endl;
+
+	cout<< another.size() << another.capacity() << another.empty() << endl;
 	
 	return 0;
 }
