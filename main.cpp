@@ -72,6 +72,14 @@ int main()
 
 	cout<< another.size() << another.capacity() << another.empty() << endl;
 	
+	another.erase(0);
+	
+	cout<< another.size() << another.capacity() << another.empty() << endl;
+	
+	another.clear();
+	
+	cout<< another.size() << another.capacity() << another.empty() << endl;
+	
 	return 0;
 }
 

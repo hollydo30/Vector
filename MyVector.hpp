@@ -32,7 +32,7 @@ class MyVector
 		MyVector(size_t capacity = DEFAULT_CAPACITY) {
 			
 			// TODO: Your code here
-			elements_ = new T[capacity]();
+			elements_ = new T[capacity];
 			size_ = 0;
 			capacity_ = capacity;
 		}
@@ -41,13 +41,14 @@ class MyVector
 		MyVector(const MyVector& other) {
 			
 			// TODO: Your code here
-			size_ = other.size_;
+			copyOther(other);
+			/*size_ = other.size_;
 			capacity_ = other.capacity_;
 			elements_ = new T[other.capacity_]();
 			for (size_t i = 0; i < other.size_; i++)
 			{
 				elements_[i] = other.elements_[i];
-			}
+			}*/
 		}
 		
 		/**
@@ -59,8 +60,14 @@ class MyVector
 			
 			// TODO: Your code here
 		
-			clear();
+			//delete[] elements_;
 			//elements_ = nullptr;
+			/*(size_t i = 0; i<size_; i++)
+				{
+				elements_[i].~T();
+				}*/
+				
+			this->clear();
 			
 		    
 		}
@@ -301,8 +308,14 @@ class MyVector
 				throw std::range_error("Index is out of bounds.");
 			
 			else
-				{for (size_t i = index; i < (size_-1); i++)
-					{elements_[i] = elements_[i+1];}}
+			{
+				for (size_t i = index; i < (size_-1); i++)
+				{   
+					elements_[i].~T();
+					elements_[i] = elements_[i+1];
+				}
+				
+			 }
 					
 			elements_[size_-1].~T();
 			size_--;
@@ -317,18 +330,32 @@ class MyVector
 		void clear() {
 			
 			// TODO: Your code here
-			/*if (elements_ != nullptr)
-			{
-				
-			for (size_t i = 0; i<size_; i++)
-			{
-				elements_[i].~T();
-			}
 			
-		    }*/
-			size_ = 0;
-			elements_=nullptr;
-			capacity_ = DEFAULT_CAPACITY;
+			//if (size_ > 0)
+			/*{
+				for(size_t i = 0; i< this->size_ ; i++)
+				{
+				elements_[i].~T();
+				}
+			
+			//}*/
+			
+			/*if (size_ <= 0)
+				throw std::range_error("Vector is already empty.");
+			else*/
+			
+			//delete[] this->elements_;
+			/*if (this->size_ > 0)
+			{
+				for(size_t i = 0; i<size_; i++)
+				{
+				elements_[i].~T();
+				}
+			}*/
+		    this->elements_= nullptr;
+			this->size_ = 0;
+			this->capacity_ = DEFAULT_CAPACITY;
+			
 				
 		}
 	
@@ -397,8 +424,17 @@ class MyVector
 		void copyOther(const MyVector& other) {
 			
 			// TODO: Your code here
+			clear();
+			size_ = other.size_;
+			capacity_ = other.capacity_;
+			//delete[] elements_;
+			elements_ = new T[other.capacity_];
+			for (size_t i = 0; i < other.size_; i++)
+			{
+				elements_[i] = other.elements_[i];
+			}
 			
-			if (other.size_ <= capacity_)
+			/*if (other.size_ <= capacity_)
 			{
 				size_ = other.size_;
 			}
@@ -414,7 +450,7 @@ class MyVector
 				{
 					elements_[i] = other.elements_[i];
 				}
-			}
+			}*/
 		}
 };
 
