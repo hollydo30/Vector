@@ -1,6 +1,6 @@
 # Project 1 - Vectors
 
-My submission for CPSC 131, Section 07, Project 1
+Implemented a resizable vector in C++ mimicking STL behavior, complete with push/pop, resizing, and iterator support.
 
 # My Information
 
